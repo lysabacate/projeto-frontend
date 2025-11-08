@@ -1,5 +1,6 @@
 import api from "./api.js";
 
+
 export const getResources = () => api.get("/mensagens");
 export const getResource = (id) => api.get('/mensagens/${id}');
 export const createResource = (data) => api.post("/mensagens", data);
