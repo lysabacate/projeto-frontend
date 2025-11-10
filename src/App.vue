@@ -4,14 +4,12 @@
 
     <mensagem-form @enviarMensagem="adicionarMensagem" />
 
-    <ul>
-      <mensagem-card
-        v-for="m in mensagens"
-        :key="m.id"
-        :mensagem="m"
-        @excluir="removerMensagem(m.id)"
-      />
-    </ul>
+    <mensagem-card
+      v-for="m in mensagens"
+      :key="m.id"
+      :mensagem="m"
+      @excluir="removerMensagem(m.id)"
+    />
   </div>
 </template>
 

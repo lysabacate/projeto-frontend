@@ -39,6 +39,7 @@ h3 {
 }
 p {
   margin: 0 0 6px;
+  color: #333;
 }
 small {
   color: #777;
