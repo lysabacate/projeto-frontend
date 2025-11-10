@@ -31,9 +31,13 @@ const adicionarMensagem = async (novaMensagem) => {
   mensagens.value.push(res.data)
 }
 
-const removerMensagem = async (id) => {
-  await deleteResource(id)
-  mensagens.value = mensagens.value.filter(m => m.id !== id)
+async function removerMensagem(id) {
+  try {
+    await deleteResource(id);
+    mensagens.value = mensagens.value.filter(m => m.id !== id);
+  } catch (error) {
+    console.error("Erro ao excluir mensagem:", error);
+  }
 }
 </script>
 

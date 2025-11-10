@@ -5,7 +5,7 @@
       <p>{{ props.mensagem.texto }}</p>
       <small>✍️ {{ props.mensagem.autor }}</small>
     </div>
-    <button @click="$emit('excluir', mensagem.id)">🗑️</button>
+    <button @click="$emit('excluir', props.mensagem.id)">🗑️</button>
   </li>
 </template>
 
