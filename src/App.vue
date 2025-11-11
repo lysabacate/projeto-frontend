@@ -15,11 +15,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getResources, createResource, deleteResource } from './services/resourceService'
+import { getResources, createResource, updateResource, deleteResource } from './services/resourceService'
 import MensagemForm from './components/MensagemForm.vue'
 import MensagemCard from './components/MensagemCard.vue'
 
 const mensagens = ref([])
+const mensagemParaEditar = ref(null)
 
 onMounted(async () => {
   const res = await getResources()
@@ -39,6 +40,18 @@ async function removerMensagem(id) {
     console.error("Erro ao excluir mensagem:", error);
   }
 }
+
+function selecionarMensagemParaEditar(mensagem) {
+  mensagemParaEditar.value = { ...mensagem }
+}
+
+async function atualizarMensagem(mensagemAtualizada) {
+  const res = await updateResource(mensagemAtualizada.id, mensagemAtualizada)
+  const index = mensagens.value.findIndex(m => m.id === mensagemAtualizada.id)
+  mensagens.value[index] = res.data
+  mensagemParaEditar.value = null // limpa o formulário
+}
+
 </script>
 
 <style scoped>

@@ -3,14 +3,17 @@
     <input v-model="novaMensagem.titulo" placeholder="Título" />
     <textarea v-model="novaMensagem.texto" placeholder="Mensagem"></textarea>
     <input v-model="novaMensagem.autor" placeholder="Autor" />
-    <button @click="enviar">Enviar</button>
+    <button @click="enviar">
+      {{ form.id ? 'Atualizar' : 'Enviar' }}
+    </button>
+
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-const emit = defineEmits(['enviarMensagem'])
+const emit = defineEmits(['enviarMensagem', 'atualizarMensagem'])
 
 const novaMensagem = ref({
   titulo: '',
