@@ -2,13 +2,18 @@
   <div class="app">
     <h1>Mensagens do DB.json</h1>
 
-    <mensagem-form @enviarMensagem="adicionarMensagem" />
+    <mensagem-form 
+      @enviarMensagem="adicionarMensagem" 
+      @atualizarMensagem="confirmarAtualizacao"
+      :mensagem-edicao="mensagemParaEditar"
+    />
 
     <mensagem-card
       v-for="m in mensagens"
       :key="m.id"
       :mensagem="m"
       @excluir="removerMensagem(m.id)"
+      @iniciarEdicao="selecionarMensagemParaEditar"
     />
   </div>
 </template>
@@ -45,11 +50,20 @@ function selecionarMensagemParaEditar(mensagem) {
   mensagemParaEditar.value = { ...mensagem }
 }
 
-async function atualizarMensagem(mensagemAtualizada) {
-  const res = await updateResource(mensagemAtualizada.id, mensagemAtualizada)
-  const index = mensagens.value.findIndex(m => m.id === mensagemAtualizada.id)
-  mensagens.value[index] = res.data
-  mensagemParaEditar.value = null // limpa o formulário
+async function confirmarAtualizacao(mensagemAtualizada) {
+  try {
+    const msgAtualizada = await updateResource(mensagemAtualizada.id, mensagemAtualizada)
+
+    const indexMensagem = mensagens.value.findIndex(m => m.id === mensagemAtualizada.id)
+    if (indexMensagem !== -1) {
+      mensagens.value[indexMensagem] = msgAtualizada
+    }
+    
+    mensagemParaEditar.value = null 
+
+  } catch (error) {
+    console.error("Erro ao atualizar mensagem:", error);
+  }
 }
 
 </script>

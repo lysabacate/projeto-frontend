@@ -4,22 +4,39 @@
     <textarea v-model="novaMensagem.texto" placeholder="Mensagem"></textarea>
     <input v-model="novaMensagem.autor" placeholder="Autor" />
     <button @click="enviar">
-      {{ form.id ? 'Atualizar' : 'Enviar' }}
+      {{ novaMensagem.id ? 'Atualizar' : 'Enviar' }}
     </button>
 
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const emit = defineEmits(['enviarMensagem', 'atualizarMensagem'])
 
+const props = defineProps({
+  mensagemEdicao: {
+    type: Object,
+    default: null
+  }
+})
+
 const novaMensagem = ref({
+  id: null,
   titulo: '',
   texto: '',
   autor: ''
 })
+
+watch(() => props.mensagemEdicao, (novaMensagemEdicao) => {
+    if (novaMensagemEdicao) {
+        novaMensagem.value = { ...novaMensagemEdicao }
+    } else {
+        novaMensagem.value = { id: null, titulo: '', texto: '', autor: '' }
+    }
+}, { immediate: true })
+
 
 const enviar = () => {
   if (
@@ -29,7 +46,12 @@ const enviar = () => {
   )
     return
 
-  emit('enviarMensagem', { ...novaMensagem.value })
+  if (novaMensagem.value.id) {
+    emit('atualizarMensagem', { ...novaMensagem.value })
+  } else {
+    const { id, ...novaMsgSemId } = novaMensagem.value;
+    emit('enviarMensagem', novaMsgSemId); 
+  }
 
   novaMensagem.value = { titulo: '', texto: '', autor: '' }
 }

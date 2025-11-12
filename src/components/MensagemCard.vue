@@ -6,11 +6,13 @@
       <small>✍️ {{ props.mensagem.autor }}</small>
     </div>
     <button @click="$emit('excluir', props.mensagem.id)">🗑️</button>
-    <button @click="$emit('atualizar', props.mensagem)">🔃</button>
+    <button @click="$emit('iniciarEdicao', props.mensagem)">🔃</button>
   </li>
 </template>
 
 <script setup>
+const emit = defineEmits(['excluir', 'iniciarEdicao']);
+
 const props = defineProps({
   mensagem: {
     type: Object,

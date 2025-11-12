@@ -3,19 +3,13 @@
     {
       "id": "1",
       "titulo": "Hello-World",
-      "texto": "Implementando primeira mensagem",
-      "autor": "Ronald"
+      "texto": "Primeira mensagem atualizada\n",
+      "autor": "Clara"
     },
     {
       "id": "2",
       "titulo": "Teste",
-      "texto": "Teste",
-      "autor": "Ronald"
-    },
-    {
-      "id": "a3cf",
-      "titulo": "Segunda mensagem de frontend",
-      "texto": "Segunda mensagem enviada do frontend para o banco de dados",
+      "texto": "Teste22222",
       "autor": "Ronald"
     }
   ]
