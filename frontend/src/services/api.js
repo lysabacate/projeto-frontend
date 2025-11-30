@@ -2,7 +2,8 @@ import axios from 'axios'
 import { getToken, logout } from './authService'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/'
+  // Frontend default to proxy '/api' (vite proxy) or use VITE_API_URL when set
+  baseURL: import.meta.env.VITE_API_URL || '/api'
 })
 
 api.interceptors.request.use(config => {
