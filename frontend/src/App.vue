@@ -1,78 +1,36 @@
 <template>
-  <div class="app">
-    <h1>Mensagens do DB.json</h1>
-
-    <mensagem-form 
-      @enviarMensagem="adicionarMensagem" 
-      @atualizarMensagem="confirmarAtualizacao"
-      :mensagem-edicao="mensagemParaEditar"
-    />
-
-    <mensagem-card
-      v-for="m in mensagens"
-      :key="m.id"
-      :mensagem="m"
-      @excluir="removerMensagem(m.id)"
-      @iniciarEdicao="selecionarMensagemParaEditar"
-    />
+  <div id="app">
+    <header class="top">
+      <nav>
+        <router-link to="/resources">Recursos</router-link>
+        <router-link to="/resources/new">Novo</router-link>
+      </nav>
+      <div>
+        <span v-if="user">{{ user.name }}</span>
+        <button v-if="user" @click="doLogout">Sair</button>
+        <router-link v-else to="/login">Login</router-link>
+      </div>
+    </header>
+    <router-view />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { getResources, createResource, updateResource, deleteResource } from './services/resourceService'
-import MensagemForm from './components/MensagemForm.vue'
-import MensagemCard from './components/MensagemCard.vue'
+import { onMounted, ref } from 'vue'
+import router from './router'
+import { getUser, logout } from './services/authService'
 
-const mensagens = ref([])
-const mensagemParaEditar = ref(null)
+const user = ref(getUser())
 
-onMounted(async () => {
-  const res = await getResources()
-  mensagens.value = res.data
-})
-
-const adicionarMensagem = async (novaMensagem) => {
-  const res = await createResource(novaMensagem)
-  mensagens.value.push(res.data)
+function doLogout() {
+  logout()
+  user.value = null
+  router.push({ name: 'login' })
 }
-
-async function removerMensagem(id) {
-  try {
-    await deleteResource(id);
-    mensagens.value = mensagens.value.filter(m => m.id !== id);
-  } catch (error) {
-    console.error("Erro ao excluir mensagem:", error);
-  }
-}
-
-function selecionarMensagemParaEditar(mensagem) {
-  mensagemParaEditar.value = { ...mensagem }
-}
-
-async function confirmarAtualizacao(mensagemAtualizada) {
-  try {
-    const msgAtualizada = await updateResource(mensagemAtualizada.id, mensagemAtualizada)
-
-    const indexMensagem = mensagens.value.findIndex(m => m.id === mensagemAtualizada.id)
-    if (indexMensagem !== -1) {
-      mensagens.value[indexMensagem] = msgAtualizada
-    }
-    
-    mensagemParaEditar.value = null 
-
-  } catch (error) {
-    console.error("Erro ao atualizar mensagem:", error);
-  }
-}
-
+onMounted(() => {})
 </script>
 
-<style scoped>
-.app {
-  padding: 20px;
-  max-width: 600px;
-  margin: auto;
-  font-family: Arial, sans-serif;
-}
+<style>
+body { font-family: Arial, sans-serif; margin: 0; }
+#app { padding: 16px; max-width: 900px; margin: auto; }
 </style>

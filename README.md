@@ -1,13 +1,28 @@
-# API Mensagens com Vue + front-end
+# Projeto Fullstack (Frontend Vue 3 + Backend Node/Express)
 
-Comando para instalar todas as dependências listadas no arquivo package.json do projeto:
-- npm install
+Este repositório contém um frontend em Vue 3 (Vite) e um backend em Node/Express com Prisma + SQLite que implementa autenticação JWT.
 
-Comando para instalar o JSON Server de forma global e cria uma API REST falsa:
-- npm install -g json-server
+Para rodar localmente:
 
-Comando para rodar o db.json:
-- npx json-server --watch src/backend/db.json --port 5000
+1. Backend
 
-Comando para rodar o frontend:
-- npm run dev
+```bash
+cd backend
+npm install
+cp .env.example .env
+npm run seed
+npm run dev
+```
+
+2. Frontend
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+O backend roda, por padrão, em http://localhost:5000 e o frontend em http://localhost:5173 (Vite).
+
+Use as credenciais de teste: admin@example.com / 123456
