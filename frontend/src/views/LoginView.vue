@@ -23,10 +23,19 @@ const router = useRouter()
 const submit = async () => {
   try {
     error.value = null
-    await login(email.value, password.value)
+    const resp = await login(email.value, password.value)
+    console.log('LoginView submit resp:', resp)
     router.push({ name: 'resources' })
   } catch (err) {
-    error.value = err?.response?.data?.error || 'Falha no login'
+    console.error('LoginView error:', err)
+    const status = err?.response?.status
+    // Network Error case (no response): err.message contains 'Network Error'
+    const message = err?.response?.data?.error || (err?.message || 'Falha no login')
+    if (!err?.response) {
+      error.value = 'Erro de rede: não foi possível conectar ao servidor. Verifique se o backend está rodando e se o URL/API está configurado corretamente.'
+    } else {
+      error.value = status ? `${status}: ${message}` : message
+    }
   }
 }
 </script>

@@ -10,6 +10,7 @@ const router = express.Router()
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body
+  console.log('POST /auth/login from', req.ip, 'body.email=', email)
   if (!email || !password) return res.status(400).json({ error: 'Email e senha são obrigatórios' })
 
   const user = await prisma.user.findUnique({ where: { email } })

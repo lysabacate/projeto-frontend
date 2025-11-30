@@ -4,11 +4,17 @@ const TOKEN_KEY = 'access_token'
 const USER_KEY = 'user'
 
 export async function login(email, password) {
-  const res = await api.post('/auth/login', { email, password })
-  const { accessToken, user } = res.data
-  localStorage.setItem(TOKEN_KEY, accessToken)
-  localStorage.setItem(USER_KEY, JSON.stringify(user))
-  return { accessToken, user }
+  try {
+    const res = await api.post('/auth/login', { email, password })
+    console.log('authService.login response:', res.data)
+    const { accessToken, user } = res.data
+    localStorage.setItem(TOKEN_KEY, accessToken)
+    localStorage.setItem(USER_KEY, JSON.stringify(user))
+    return { accessToken, user }
+  } catch (err) {
+    console.error('Login failed in authService:', err?.response?.data || err.message)
+    throw err
+  }
 }
 
 export function logout() {
