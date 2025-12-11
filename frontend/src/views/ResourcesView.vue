@@ -68,8 +68,9 @@ async function remove(id) {
 </script>
 
 <style scoped>
-.header { display:flex; justify-content:space-between; align-items:center; gap:10px }
+.header { display:flex; align-items:center; gap:10px }
+.header>div{display: flex; align-items: center; gap: 10px;}
 ul { padding: 0 }
 li { list-style:none; border-bottom:1px solid #eee; padding:8px 0 }
-.actions { margin-top:8px }
+.actions { margin-top:8px; display: flex; gap: 10px; align-items: center; justify-content: center;}
 </style>
